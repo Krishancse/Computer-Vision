@@ -1,0 +1,41 @@
+import cv2
+import socket
+import numpy as np
+import mediapipe as mp
+
+# Create a socket and set the server address and port
+sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+serverAddressPort = ("127.0.0.1", 12345)
+
+# Initialize the hand tracking module
+mp_drawing = mp.solutions.drawing_utils
+mp_hands = mp.solutions.hands
+
+# Open the camera
+cap = cv2.VideoCapture(0)
+
+with mp_hands.Hands(
+    min_detection_confidence=0.5,
+    min_tracking_confidence=0.5) as hands:
+
+    while True:
+        # Get image
+        success, img = cap.read()
+
+        # Convert the image to RGB
+        img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+
+        # Find the hand and its landmarks
+        results = hands.process(img_rgb)
+
+        if results.multi_hand_landmarks:
+            for hand_landmarks in results.multi_hand_landmarks:
+                data = []
+                for lm in hand_landmarks.landmark:
+                    data.extend([lm.x, lm.y, lm.z])
+
+                sock.sendto(str.encode(str(data)), serverAddressPort)
+
+        # Display the image
+        cv2.imshow("Image", img)
+        cv2.waitKey(1)
