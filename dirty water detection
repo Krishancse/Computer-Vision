@@ -1,0 +1,47 @@
+import cv2
+import numpy as np
+import pandas as pd
+import plotly.express as px
+from pycaret.classification import *
+
+# Water quality check function
+def water_quality_check():
+    cap = cv2.VideoCapture(0)
+
+    while True:
+        ret, frame = cap.read()
+
+        if not ret:
+            break
+
+        # Apply necessary image processing techniques for water quality check
+        # Implement the water quality check logic here
+
+        cv2.imshow('Water Quality Check', frame)
+
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            break
+
+    cap.release()
+    cv2.destroyAllWindows()
+
+    # Assuming 'data' is your pandas DataFrame
+    data = None  # Replace None with your DataFrame
+
+    figure = px.histogram(data, x="Turbidity", color="Potability", title="Factors Affecting Water Quality: Turbidity")
+    figure.show()
+
+    correlation = data.corr()
+    print(correlation["ph"].sort_values(ascending=False))
+
+    clf = setup(data, target="Potability", silent=True, session_id=786)
+    compare_models()
+
+    model = create_model("rf")
+    predict = predict_model(model, data=data)
+    print(predict.head())
+
+
+if __name__ == '__main__':
+    water_quality_check()
+
