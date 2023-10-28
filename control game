@@ -1,0 +1,27 @@
+import numpy as np
+import cv2
+import math
+import pyautogui
+
+# Open Camera
+capture = cv2.VideoCapture(0)
+
+while capture.isOpened():
+    # Apply morphological transformations to filter out the background noise
+    dilation = cv2.dilate(mask2, kernel, iterations=1)
+    erosion = cv2.erode(dilation, kernel, iterations=1)
+
+    # Apply Gaussian Blur and Threshold
+    filtered = cv2.GaussianBlur(erosion, (3, 3), 0)
+    ret, thresh = cv2.threshold(filtered, 127, 255, 0)
+    contours, hierachy = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+
+    # Show required images
+    cv2.imshow("Gesture", frame)
+
+    # Close the camera if 'q' is pressed
+    if cv2.waitKey(1) == ord('q'):
+        break
+
+capture.release()
+cv2.destroyAllWindows()
