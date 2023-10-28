@@ -1,0 +1,36 @@
+import matplotlib.pyplot as plt
+import matplotlib.image as mpimg
+import numpy as np
+import cv2
+import os
+
+# - GET IMAGE
+im = test_images[0]
+imshape = im.shape
+
+plt.figure(1)
+plt.imshow(im)
+plt.title(test_image_names[0])
+
+# - EDGE DETECTION
+minVal = 60
+maxVal = 150
+smoothedIm = cv2.GaussianBlur(im, (5, 5), 0)
+edgesIm = cv2.Canny(smoothedIm, minVal, maxVal)
+
+plt.figure(4)
+implot = plt.imshow(edgesIm, cmap='gray')
+
+# defining a blank mask to start with, 0s with the same shape of edgesIm
+mask = np.zeros_like(edgesIm)
+
+# fill pixels inside the polygon defined by vertices with the fill color
+color = 255
+cv2.fillPoly(mask, vertices, color)
+
+# show mask
+plt.figure(5)
+plt.imshow(mask, cmap='gray')
+plt.title('Mask')
+
+# rest of the code here / check the last slide
