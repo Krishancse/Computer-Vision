@@ -35,8 +35,7 @@ These instructions will help you get a copy of the project up and running on you
 This project is licensed under the [MIT] - see the [MIT.LICENSE.md](LICENSE.md) file for details.
 
 ## Acknowledgments
-[If your project builds upon or uses external libraries, data, or resources, acknowledge them here.]
-
+The libararies used in the project are ai and ml .(OpenCV, PIL (Python Imaging Library), scikit-image, SimpleCV, mahotas, imageio, pydicom, ITK, PyWavelets, mahotas, vigra, SimpleITK, SimpleCV, SimpleAI, mahotas, scikit-learn.)
 ## Contact
 - GitHub: [@krishancse](https://github.com/krishancse)
 - Email: [your.email@example.com]
