@@ -32,7 +32,7 @@ These instructions will help you get a copy of the project up and running on you
 [Explain how others can contribute to your project. Include guidelines for submitting pull requests, reporting issues, and any coding standards.]
 
 ## License
-This project is licensed under the [License Name] - see the [LICENSE.md](LICENSE.md) file for details.
+This project is licensed under the [MIT] - see the [MIT.LICENSE.md](LICENSE.md) file for details.
 
 ## Acknowledgments
 [If your project builds upon or uses external libraries, data, or resources, acknowledge them here.]
