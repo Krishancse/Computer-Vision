@@ -1,0 +1,29 @@
+import torch
+import time
+import numpy as np
+from model.model import parsingNet
+import torchvision.transforms as transforms
+import cv2
+from matplotlib import pyplot as plt
+from PIL import Image
+
+img_transforms = transforms.Compose([
+    transforms.Resize((288, 800)),
+    transforms.ToTensor(),
+    transforms.Normalize((0.485, 0.456, 0.406), (0.229, 0.224, 0.225)),
+])
+
+def resize(x, y):
+    global cap
+    cap.set(3, x)
+    cap.set(4, y)
+
+def test_practical_without_readtime():
+    global cap
+    for i in range(10):
+        _, img = cap.read()
+        cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+        img2 = Image.fromarray(img)
+        x = img_transforms(img2)
+        x = x.unsqueeze(0).cuda() + 1
+        y = net(x)
