@@ -1,0 +1,109 @@
+#client code 
+
+import pyautogut
+import keyboard
+import socket
+import json
+import os
+import threading
+from win32api import GetSystemMetrics
+import sys
+from tkinter import Label, Tk, Canvas, NW
+from PIL import Image, ImageFile, ImageTk
+
+ImageFile.LOAD_TRUNCATED_IMAGES = True
+
+#define some things
+s = socket.socket()
+V = '0.0.2' #woah
+
+#define some useless colors
+purple = "\033[0;35m"
+yellow = "\033[1;33"
+green = "\033[1;36"
+blank = "\033[0m"
+
+#set config path
+appdata = os.getenv('APPDATA')
+config_path = os.path.join(appdata, "klipy.json")
+
+#define global config things
+res_multiplayer = 0
+quality = '@'
+
+#config doesn't work
+
+#write and read config from file
+def write_config(arg):
+    print("> Writing config")
+    config = json.dumps(arg)
+    with open(config_path, "w") as f:
+        f.write(str(config))
+    try:
+        print(" > Successfully written to config")
+    except Exception as e:
+        print(f" > Couldn't write to config! {e}")
+
+
+
+
+#server code
+
+import pyautogui
+import socket
+import asyncio
+import PIL.Image, PIL.ImageFile, PIL.ImageTk
+import os
+import threading
+from io import BytesIO
+from win32api import GetSystemMetrics, GetMonitorInfo
+
+s = socket.socket()
+
+print(' > Starting server')
+
+# get screen res
+res_x = int(GetSystemMetrics(0) / 2)
+res_y = int(GetSystemMetrics(1) / 2)
+
+print(f" > Using display with resolution ({GetSystemMetrics(0)}, {GetSystemMetrics(1)})")
+
+port = 22371
+
+# bind to a port
+s.bind(("", port))
+
+print(f' > Server running at {port}')
+print(' > Listening for connection...')
+
+# listen for a connection
+s.listen(1)
+c, addr = s.accept()
+
+print(f' > Got connection from {addr}')
+
+# server class
+class Server:
+    size = 102400
+
+    # get pressed key
+    def key_loop(self):
+        while True:
+            try:
+                # send it
+                key = c.recv(512).decode()
+                print(key)
+                pyautogui.write(key)
+            except Exception as e:
+                pass
+
+# Create a server instance and run the key_loop
+server = Server()
+server.key_loop()
+
+
+
+
+
+
+
